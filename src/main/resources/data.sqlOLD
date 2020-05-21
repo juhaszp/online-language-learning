@@ -1,0 +1,3 @@
+insert into Users (email, password, fullName, enabled) VALUES ('juhasz.peter@roxinvest.hu', 'MTIzNA==', 'Juhász Péter', true);
+insert into Users (email, password, fullName, enabled) VALUES ('elek@hahu.hu', 'ODAwNTE5', 'Mekk Elek', true);
+insert into Users (email, password, fullName, enabled) VALUES ('bela@tvn.hu', 'ODAwNTE5', 'Hartalangi Béla', true);

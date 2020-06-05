@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorator="layouts/main">
 <head>
-<title th:text='#{pageTitle}'>Online nyelvtanulás - Bejelentkezés</title>
+	<title th:text='#{pageTitle}'>Online nyelvtanulás - Bejelentkezés</title>
 </head>
 <body>
-
-	<div layout:fragment="loginContent">
-
+	<div layout:fragment="pageContent">
 		<form name="login" th:action="@{/login}" method="post" class="form-signin">
 			<h2 class="form-signin-heading">Bejelentkezés</h2>
 			<div id="err" th:if="${param.error}" class="alert alert-danger">Hibás felhasználó név és jelszó</div>
-			<div id="result" th:if="${result} == 'ok'" class="alert alert-success">Sikeres regisztráció, az email-ben küldött aktiválást követően be tud jelentkezni az oldalra</div>
+			<div id="result" th:if="${result} == 'registration_ok'" class="alert alert-success">Sikeres regisztráció, az email-ben küldött aktiválást követően be tud jelentkezni az oldalra</div>
+			<div id="result" th:if="${result} == 'reset_password_ok'" class="alert alert-success">Jelszavát töröltük, az email-ben küldött aktiválást és új jelszó megadást követően be tud jelentkezni az oldalra</div>
+			<div id="result" th:if="${result} == 'set_password_ok'" class="alert alert-success">Az új jelszó megadása sikeres volt, most már be tud jelentkezni az oldalra</div>
 			<div th:if="${param.logout}" class="alert alert-success">Sikeres kijelentkezés</div>
 			<label for="username" class="sr-only">Felhasználó név</label> 
 			    <input type="text" id="username" name="username" class="form-control" placeholder="Felhasználó név" required="true" /> 
@@ -23,8 +23,9 @@
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Bejelentkezés</button>
 		</form>
 
-      <a href="/registration">Regisztráció</a>
+		<a href="/registration">Regisztráció</a>
+		<br/>
+		<a href="/forgotten_password">Elfelejtett jelszó</a>
 	</div>
-
 </body>
 </html>

@@ -37,28 +37,23 @@
             </div>
         </div>
     </nav>
-
    
     <article>
         <header>
-            <h1 th:text="${error}">Ez itt a gond</h1> 
+            <h1 th:text="${error}">Error</h1> 
         </header>
     
  	    <section >
-            <p th:text="${message}">Ez az üzenet.</p>
-            <p th:text="${path}">Elérési út.</p>
-            <p th:text="${status}">Státusz</p>
-            <p th:text="${timestamp}">Időpont</p>
+            <p th:text="${message}">Message</p>
+            <p th:text="${path}">Path</p>
+            <p th:text="${status}">Status</p>
+            <p th:text="${timestamp}">TimeStamp</p>
         </section>
-        
-       
-      
     </article>
 
     <footer>
         <p th:text="#{footerText}">Online nyelvtanulás © 2020- Minden jog fenntartva!</p>
     </footer>
-
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

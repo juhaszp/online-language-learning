@@ -70,7 +70,7 @@ address {
     border-color: #23c436;
 }
 
-.btn-primary:active:focus {
+.btn-primary:active:focus, .btn-primary:focus {
     color: #fff;
     background-color: #05f721;
     border-color: #23c436;
@@ -80,4 +80,8 @@ address {
 	height: 150px;
 	margin: 0 auto;
 	overflow: hidden;
+}
+
+.disabled {
+	pointer-events: none;
 }

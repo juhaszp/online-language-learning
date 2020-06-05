@@ -1,27 +1,27 @@
-package com.sec.service;
+package com.online.service;
 
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import com.sec.entity.Role;
-import com.sec.entity.User;
+import com.online.entity.Role;
+import com.online.entity.User;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsService implements UserDetails {
 
 	private static final long serialVersionUID = 3185970362329652822L;
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private User user;
 
-	public UserDetailsImpl(User user) {
+	public UserDetailsService(User user) {
 		this.user = user;
 	}
 
@@ -29,10 +29,8 @@ public class UserDetailsImpl implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		Set<Role> roles = user.getRoles();
-		/*for (Role role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getRole()));
-		}*/
 		roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole())));
+
 		return authorities;
 	}
 
@@ -65,5 +63,4 @@ public class UserDetailsImpl implements UserDetails {
 	public boolean isEnabled() {
 		return user.getEnabled();
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.sec.entity;
+package com.online.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table( name = "roles" )
+@Table(name = "roles")
 public class Role {
 
 	@Id
@@ -19,12 +19,12 @@ public class Role {
 	
 	private String role;
 	
-	@ManyToMany( mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
 	
-	private Role(){} 
+	private Role() {} 
 	
-	public Role(String role){
+	public Role(String role) {
 		this.role=role;
 	}
 
@@ -56,5 +56,4 @@ public class Role {
 	public String toString() {
 		return "Role [id=" + id + ", role=" + role + "]";
 	}
-	
 }

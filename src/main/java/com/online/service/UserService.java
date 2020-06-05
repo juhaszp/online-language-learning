@@ -1,26 +1,24 @@
-package com.sec.service;
+package com.online.service;
 
 import java.util.Base64;
+import java.util.Optional;
 import java.util.Random;
-
-import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.sec.entity.Role;
-import com.sec.entity.User;
-import com.sec.interfaces.UserService;
-import com.sec.repo.RoleRepository;
-import com.sec.repo.UserRepository;
+import com.online.entity.Role;
+import com.online.entity.User;
+import com.online.interfaces.UserServiceInterface;
+import com.online.repo.RoleRepository;
+import com.online.repo.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserService implements UserServiceInterface, org.springframework.security.core.userdetails.UserDetailsService {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -33,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private final String USER_ROLE = "USER";
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService) {
+	public UserService(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.emailService = emailService;
@@ -46,27 +44,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 
-		return new UserDetailsImpl(user);
+		return new UserDetailsService(user);
 	}
 
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
+	
+
+	@Override
+	public User findByActivation(String code) {
+		return userRepository.findByActivation(code);
+	}
 
 	@Override
 	public String registerUser(User userToRegister) {
 		if (userToRegister.getEmail().equals(""))
-			return "emptyEmail";
+			return "empty_email";
 		if (userToRegister.getFullName().equals(""))
-			return "emptyName";
+			return "empty_name";
 		if (userToRegister.getPassword().equals(""))
-			return "emptyPassword";
+			return "empty_password";
 
 		User userCheck = userRepository.findByEmail(userToRegister.getEmail());
 
 		if (userCheck != null)
-			return "alreadyExists";
+			return "user_email_already_exists";
 
 		Role userRole = roleRepository.findByRole(USER_ROLE);
 		if (userRole != null) {
@@ -81,21 +85,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userToRegister.setPassword(Base64.getEncoder().encodeToString(userToRegister.getPassword().getBytes()));
 		userRepository.save(userToRegister);
 		emailService.sendRegistrationMessage(userToRegister.getEmail(), generatedKey);
-		//log.debug("Generated key: " + generatedKey);
 
-		return "ok";
+		return "registration_ok";
 	}
 
 	public String generateKey()
     {
-		String key = "";
 		Random random = new Random();
-		char[] word = new char[16]; 
+		char[] word = new char[16];
+		
 		for (int j = 0; j < word.length; j++) {
 			word[j] = (char) ('a' + random.nextInt(26));
 		}
-		String toReturn = new String(word);
-		//log.debug("random code: " + toReturn);
+
 		return new String(word);
     }
 
@@ -103,30 +105,51 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public String userActivation(String code) {
 		User user = userRepository.findByActivation(code);
 		if (user == null)
-		    return "noresult";
+		    return "no_result";
 		
 		user.setEnabled(true);
 		user.setActivation("");
 		userRepository.save(user);
-		return "ok";
+		return "activation_ok";
+	}
+
+	@Override
+	public String forgottenPassword(String email) {
+		if (email.equals(""))
+			return "empty_email";
+		
+		User user = userRepository.findByEmail(email);
+		
+		if (user == null)
+			return "not_exists";
+		
+		String generatedKey = generateKey();
+		
+		//user.setEnabled(false);
+		//user.setPassword("");
+		user.setActivation(generatedKey);
+		userRepository.save(user);
+		
+		emailService.sendForgottenPasswordMessage(email, generatedKey);
+		
+		return "reset_password_ok";
 	}
 	
-	/** TODO remove **/
-//	@PostConstruct
-//	public void init(){
-//		User user = new User();
-//		user.setEmail("juhasz.peter@roxinvest.hu");
-//		user.setEnabled(true);
-//		user.setFullName("Juhász Péter");
-//		user.setEmail("jpeter@vipmail.hu");
-//		user.setEnabled(true);
-//	//	user.setFullName("Nagy Béla");
-//		//user.setPassword("1234");
-//		user.setPassword("MTIzNA==");
-//		user.addRoles(USER_ROLE);
-//		user.setActivation("");
-//		log.debug("----------------USER felvéve");
-//		userRepository.save(user);
-//	}
-
+	@Override
+	public String userForgottenPasswordActivation(User userDetails) {
+		if (Optional.ofNullable(userDetails.getEmail()).isEmpty())
+			return "invalid_email";
+		
+		User user = userRepository.findByEmail(userDetails.getEmail());
+		
+		if (user == null)
+		    return "not_exists_user";
+		
+		//user.setEnabled(true);
+		user.setPassword(Base64.getEncoder().encodeToString(userDetails.getPassword().getBytes()));
+		user.setActivation("");
+		userRepository.save(user);
+		
+		return "set_password_ok";
+	}
 }

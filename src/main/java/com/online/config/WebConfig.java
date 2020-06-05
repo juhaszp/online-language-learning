@@ -1,4 +1,4 @@
-package com.sec.config;
+package com.online.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -14,7 +14,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/login").setViewName("auth/login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);		
 	}
-
-	
-	
 }

@@ -1,4 +1,4 @@
-package com.sec.entity;
+package com.online.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,13 +15,13 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table( name="users" )
+@Table(name="users")
 public class User {
 
 	@Id @GeneratedValue
 	private Long id;
 	
-	@Column( unique=true, nullable=false )
+	@Column(unique=true, nullable=false )
 	private String email;
 	
 	@Column( nullable=false )
@@ -107,8 +107,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", password=" + password + "]";
+		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + "]";
 	}
-
-	
 }

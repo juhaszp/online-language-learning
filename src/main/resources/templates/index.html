@@ -6,6 +6,7 @@
 <body>
 	<div layout:fragment="pageContent">
 		<h2>Kezdőoldal</h2>
+		<div id="result" th:if="${result} == 'user_modify_ok'" class="alert alert-success">Sikeres profil módosítás</div>
 	</div>
 </body>
 </html>

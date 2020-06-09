@@ -29,6 +29,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
+				.antMatchers("/favicon.png").permitAll()
+				.antMatchers("/robots.txt").permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/registration/**").permitAll()

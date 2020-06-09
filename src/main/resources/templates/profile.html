@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
 <head>
-<title>Online nyelvtanulás - Profil adatok</title>
+<title th:text='#{pagetitle.profile}'>Online nyelvtanulás - Profil adatok</title>
 </head>
 <body>
 	<div layout:fragment="pageContent">
 		<h1>Profil adatok</h1>
 
 		<form name="profile" th:action="@{/profile_details_modify}" th:object="${user}" method="post" class="form-signin">
-			<div id="result" th:if="${result} == 'empty_name'" class="alert alert-danger">Nem lehet a regisztrációnál megadott név üres</div>
-			<div id="result" th:if="${result} == 'empty_password'" class="alert alert-danger">Nem lehet a regisztrációnál megadott jelszó üres</div>
+			<div id="result" th:if="${result} == 'empty_name'" class="alert alert-danger">Nem lehet a profil módosításnál megadott név üres</div>
+			<div id="result" th:if="${result} == 'empty_password'" class="alert alert-danger">Nem lehet a profil módosításnál megadott jelszó üres</div>
 			<h2 class="form-signin-heading">Adatok megadása</h2>
 				<p>Teljes név:</p><input type="text" id="fullName" name="fullName" th:field="*{fullName}" class="form-control" placeholder="Teljes név" th:value="${user.fullName}" /> 
 		 	    <p>Email cím:</p><input type="text" id="email" name="username" th:field="*{email}" class="form-control disabled" placeholder="E-mail cím" th:value="${user.email}" /> 

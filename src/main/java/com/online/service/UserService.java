@@ -20,7 +20,7 @@ import com.online.repo.UserRepository;
 @Service
 public class UserService implements UserServiceInterface, org.springframework.security.core.userdetails.UserDetailsService {
 	
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	//private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private UserRepository userRepository;
 
@@ -40,9 +40,9 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = findByEmail(username);
-		if (user == null) {
+		
+		if (user == null)
 			throw new UsernameNotFoundException(username);
-		}
 
 		return new UserDetailsService(user);
 	}
@@ -51,7 +51,6 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
 
 	@Override
 	public User findByActivation(String code) {
@@ -73,11 +72,11 @@ public class UserService implements UserServiceInterface, org.springframework.se
 			return "user_email_already_exists";
 
 		Role userRole = roleRepository.findByRole(USER_ROLE);
-		if (userRole != null) {
+		
+		if (userRole != null)
 			userToRegister.getRoles().add(userRole);
-		} else {
+		else
 			userToRegister.addRoles(USER_ROLE);
-		}
 		
 		userToRegister.setEnabled(false);
 		String generatedKey = generateKey();
@@ -104,6 +103,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	@Override
 	public String userActivation(String code) {
 		User user = userRepository.findByActivation(code);
+		
 		if (user == null)
 		    return "no_result";
 		
@@ -151,5 +151,21 @@ public class UserService implements UserServiceInterface, org.springframework.se
 		userRepository.save(user);
 		
 		return "set_password_ok";
+	}
+	
+	@Override
+	public String modifyUser(User userToModify) {
+		if (userToModify.getFullName().equals(""))
+			return "empty_name";
+		if (userToModify.getPassword().equals(""))
+			return "empty_password";
+
+		User user = userRepository.findByEmail(userToModify.getEmail());
+
+		user.setFullName(userToModify.getFullName());
+		user.setPassword(Base64.getEncoder().encodeToString(userToModify.getPassword().getBytes()));
+		userRepository.save(user);
+
+		return "user_modify_ok";
 	}
 }

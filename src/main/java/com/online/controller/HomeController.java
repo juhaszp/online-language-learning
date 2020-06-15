@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.online.entity.User;
 
@@ -15,6 +16,8 @@ public class HomeController extends BaseController {
 	@RequestMapping("/registration")
 	public String registration(Model model) {
 		model.addAttribute("user", new User());
+
+		addJSFileAttributeToModel(model);
 		
 		return "registration";
 	}
@@ -43,10 +46,13 @@ public class HomeController extends BaseController {
     }
 	
 	@RequestMapping("/forgotten_password")
-	public String forgottenPassword(Model model) {
-		model.addAttribute("user", new User());
-		
-		return "forgotten_password";
+	public ModelAndView forgottenPassword() {
+		ModelAndView modelAndView = new ModelAndView("forgotten_password");
+	    modelAndView.addObject("user", new User());
+	    
+	    //addJSFileAttributeToModelAndView(modelAndView);
+	    
+	    return modelAndView;
 	}
 
 	@PostMapping("/for_pass")

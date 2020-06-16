@@ -30,24 +30,32 @@ public class BaseController {
 
 	@Autowired
 	public void setEmailService(EmailService emailService) {
+		
 		this.emailService = emailService;
 	}
 	
 	@Autowired
 	public void setUserService(UserServiceInterface userService) {
+		
 		this.userService = userService;
 	}
 	
 	public UserServiceInterface getUserService() {
+		
 		return userService;
 	}
 
 	public EmailService getEmailService() {
+		
 		return emailService;
 	}
 
-	protected User getLoggedInUser()
-	{
+	/**
+	 * Get logged in User
+	 * @return User object or null if it's not exist
+	 */
+	protected User getLoggedInUser() {
+		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		String email = null;
@@ -60,19 +68,54 @@ public class BaseController {
 			return userService.findByEmail(email);
 	}
 	
-	// add js file to main fragment from request URL
-	protected void addJSFileAttributeToModel(Model model)
-	{
+	/**
+	 * Add javascript file to main fragment from specified name
+	 * @param model Mobel object
+	 * @param jsName Javascript name with or without extension
+	 */
+	protected void addJSFileAttributeToModel(Model model, String jsName) {
+		
+		model.addAttribute("javascript", getJsFileNameWithPath(jsName));
+	}
+	
+	/**
+	 * Add javascript file to main fragment from specified name
+	 * @param modelAndView MobelAndView object
+	 * @param jsName Javascript name with or without extension
+	 */
+	protected void addJSFileAttributeToModelAndView(ModelAndView modelAndView, String jsName) {
+		
+		modelAndView.addObject("javascript", getJsFileNameWithPath(jsName));
+	}
+	
+	private String getJsFileNameWithPath(String jsName) {
+		
+		if (jsName.contains(".js"))
+			return "/js/" + jsName;
+		else
+			return "/js/" + jsName + ".js";
+	}
+	
+	/**
+	 * Add javascript file to main fragment from request URL
+	 * @param model Mobel object
+	 */
+	protected void addJSFileAttributeToModel(Model model) {
+		
 		model.addAttribute("javascript", getJSUrlFromContext());
 	}
 	
-	protected void addJSFileAttributeToModelAndView(ModelAndView modelAndView)
-	{
+	/**
+	 * Add javascript file to main fragment from request URL
+	 * @param modelAndView MobelAndView object
+	 */
+	protected void addJSFileAttributeToModelAndView(ModelAndView modelAndView) {
+		
 		modelAndView.addObject("javascript", getJSUrlFromContext());
 	}
 
-	private String getJSUrlFromContext()
-	{
-		return "../../js" + (String)context.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE) + ".js";
+	private String getJSUrlFromContext() {
+		
+		return "/js" + (String)context.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE) + ".js";
 	}
 }

@@ -20,8 +20,6 @@ import com.online.repo.UserRepository;
 @Service
 public class UserService implements UserServiceInterface, org.springframework.security.core.userdetails.UserDetailsService {
 	
-	//private final Logger log = LoggerFactory.getLogger(this.getClass());
-
 	private UserRepository userRepository;
 
 	private RoleRepository roleRepository;
@@ -32,6 +30,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 
 	@Autowired
 	public UserService(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService) {
+		
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.emailService = emailService;
@@ -39,6 +38,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
 		User user = findByEmail(username);
 		
 		if (user == null)
@@ -49,16 +49,19 @@ public class UserService implements UserServiceInterface, org.springframework.se
 
 	@Override
 	public User findByEmail(String email) {
+		
 		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public User findByActivation(String code) {
+		
 		return userRepository.findByActivation(code);
 	}
 
 	@Override
 	public String registerUser(User userToRegister) {
+		
 		if (userToRegister.getEmail().equals(""))
 			return "empty_email";
 		if (userToRegister.getFullName().equals(""))
@@ -88,8 +91,8 @@ public class UserService implements UserServiceInterface, org.springframework.se
 		return "registration_ok";
 	}
 
-	public String generateKey()
-    {
+	public String generateKey() {
+		
 		Random random = new Random();
 		char[] word = new char[16];
 		
@@ -102,6 +105,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 
 	@Override
 	public String userActivation(String code) {
+		
 		User user = userRepository.findByActivation(code);
 		
 		if (user == null)
@@ -115,6 +119,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 
 	@Override
 	public String forgottenPassword(String email) {
+		
 		if (email.equals(""))
 			return "empty_email";
 		
@@ -137,6 +142,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	
 	@Override
 	public String userForgottenPasswordActivation(User userDetails) {
+		
 		if (Optional.ofNullable(userDetails.getEmail()).isEmpty())
 			return "invalid_email";
 		
@@ -155,6 +161,7 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	
 	@Override
 	public String modifyUser(User userToModify) {
+		
 		if (userToModify.getFullName().equals(""))
 			return "empty_name";
 		if (userToModify.getPassword().equals(""))

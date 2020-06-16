@@ -11,6 +11,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+		
 		super.addViewControllers(registry);
         registry.addViewController("/login").setViewName("auth/login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);		
@@ -18,8 +19,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		
 		registry.addResourceHandler(
-	      "/favicon.png",
 	      "/robots.txt")
 	      .addResourceLocations("classpath:/static/");
 	}

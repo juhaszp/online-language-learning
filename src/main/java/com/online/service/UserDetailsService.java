@@ -22,11 +22,13 @@ public class UserDetailsService implements UserDetails {
 	private User user;
 
 	public UserDetailsService(User user) {
+		
 		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
 		Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		Set<Role> roles = user.getRoles();
 		roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole())));
@@ -36,31 +38,37 @@ public class UserDetailsService implements UserDetails {
 
 	@Override
 	public String getPassword() {
+		
 		return new String(Base64.getDecoder().decode(user.getPassword()));
 	}
 
 	@Override
 	public String getUsername() {
+		
 		return user.getEmail();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
+		
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
+		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
+		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
+		
 		return user.getEnabled();
 	}
 }

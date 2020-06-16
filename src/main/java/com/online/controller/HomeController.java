@@ -14,16 +14,19 @@ import com.online.entity.User;
 public class HomeController extends BaseController {
 	
 	@RequestMapping("/registration")
-	public String registration(Model model) {
-		model.addAttribute("user", new User());
-
-		addJSFileAttributeToModel(model);
+	public ModelAndView registration() {
 		
-		return "registration";
+		ModelAndView modelAndView = new ModelAndView("registration");
+	    modelAndView.addObject("user", new User());
+	    
+	    addJSFileAttributeToModelAndView(modelAndView, "validate-password");
+	    
+	    return modelAndView;
 	}
 
 	@RequestMapping("/activation/{code}")
 	public String activation(Model model, @PathVariable String code) {
+		
 		String result = getUserService().userActivation(code);
 		
 		return result.equals("activation_ok") ? "activation" : "error";
@@ -31,6 +34,7 @@ public class HomeController extends BaseController {
 	
 	@PostMapping("/reg")
     public String reg(@ModelAttribute User user, Model model) {
+		
 		log.info("Uj felhasználó felvétele");
 
 		log.debug(user.getFullName());
@@ -47,16 +51,16 @@ public class HomeController extends BaseController {
 	
 	@RequestMapping("/forgotten_password")
 	public ModelAndView forgottenPassword() {
+		
 		ModelAndView modelAndView = new ModelAndView("forgotten_password");
 	    modelAndView.addObject("user", new User());
-	    
-	    //addJSFileAttributeToModelAndView(modelAndView);
 	    
 	    return modelAndView;
 	}
 
 	@PostMapping("/for_pass")
     public String forPass(@ModelAttribute User user, Model model) {
+		
 		log.info("Új jelszó beállítása");
 		String result = getUserService().forgottenPassword(user.getEmail());
 		model.addAttribute("result", result);
@@ -69,6 +73,7 @@ public class HomeController extends BaseController {
 	
 	@RequestMapping("/forgotten_password_activation/{code}")
 	public String forgottenPasswordActivation(Model model, @PathVariable String code) {
+		
 		User user = getUserService().findByActivation(code);
 
 		if (user ==  null)
@@ -77,11 +82,14 @@ public class HomeController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("code", code);
 		
+		addJSFileAttributeToModel(model, "validate-password");
+		
 		return "forgotten_password_activation";
 	}
 	
 	@PostMapping("/for_pass_activation")
     public String forPassActivation(@ModelAttribute User user, Model model) {
+		
 		//two_password_not_equals
 		
 		String result = getUserService().userForgottenPasswordActivation(user);

@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class SecurityConf extends WebSecurityConfigurerAdapter {
+	
 	@Bean
 	public UserDetailsService userDetailsService() {
+		
 	    return super.userDetailsService();
 	}
 	
@@ -22,14 +24,15 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
+		
 		auth.userDetailsService(userService);
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		http
 			.authorizeRequests()
-				.antMatchers("/favicon.png").permitAll()
 				.antMatchers("/robots.txt").permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/registration").permitAll()

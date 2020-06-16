@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
+	
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	@Value("${spring.mail.messagefrom.name}")
@@ -24,10 +25,12 @@ public class EmailService {
 
 	@Autowired
 	public void setJavaMailSender(JavaMailSender javaMailSender) {
+		
 		this.javaMailSender = javaMailSender;
 	}
 
 	public void sendRegistrationMessage(String email, String generatedKey) {
+		
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			message.setSubject("Online-nyelvtanulás - Sikeres regisztrálás");
@@ -51,6 +54,7 @@ public class EmailService {
 	}
 	
 	public void sendForgottenPasswordMessage(String email, String generatedKey) {
+		
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			message.setSubject("Online-nyelvtanulás - Elfelejtett jelszó");

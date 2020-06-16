@@ -13,6 +13,7 @@ public class MainController extends BaseController {
 	
 	@RequestMapping("/")
 	public String home(Model model) {
+		
 		model.addAttribute("page", "index");
 		
 		return "index";
@@ -20,6 +21,7 @@ public class MainController extends BaseController {
 	
 	@RequestMapping("/page1")
 	public String page1(Model model) {
+		
 		model.addAttribute("page", "page1");
 		
 		return "page1";
@@ -27,6 +29,7 @@ public class MainController extends BaseController {
 	
 	@RequestMapping("/page2")
 	public String page2(Model model) {
+		
 		model.addAttribute("page", "page2");
 		
 		return "page2";
@@ -34,6 +37,7 @@ public class MainController extends BaseController {
 	
 	@RequestMapping("/profile")
 	public String profile(Model model) {
+		
 		model.addAttribute("user", getLoggedInUser());
 
 		return "profile";
@@ -41,6 +45,7 @@ public class MainController extends BaseController {
 	
 	@PostMapping("/profile_details_modify")
     public String profileDetailsModify(@ModelAttribute User user, Model model) {
+		
 		log.info("Felhasználó módosítása");
 
 		log.debug(user.getFullName());

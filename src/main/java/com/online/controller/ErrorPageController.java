@@ -21,12 +21,14 @@ public class ErrorPageController implements ErrorController {
 	private ErrorAttributes errorAttributes;
 	
 	@Autowired
-	public void setErrorAttributes(ErrorAttributes errorAttributes){
+	public void setErrorAttributes(ErrorAttributes errorAttributes) {
+		
 		this.errorAttributes = errorAttributes;
 	}
 	
 	@RequestMapping(ERR_PATH)
 	public String error(Model model, HttpServletRequest request) {
+		
 		RequestAttributes rA = new ServletRequestAttributes(request);
 		Map<String,Object> error = this.errorAttributes.getErrorAttributes(rA, true);
 		
@@ -41,6 +43,7 @@ public class ErrorPageController implements ErrorController {
 	
 	@Override
 	public String getErrorPath() {
+		
 		return ERR_PATH;
 	}
 }

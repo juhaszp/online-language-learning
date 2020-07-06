@@ -19,14 +19,6 @@ public class MainController extends BaseController {
 		return "index";
 	}
 	
-	@RequestMapping("/page1")
-	public String page1(Model model) {
-		
-		model.addAttribute("page", "page1");
-		
-		return "page1";
-	}
-	
 	@RequestMapping("/page2")
 	public String page2(Model model) {
 		
@@ -39,7 +31,7 @@ public class MainController extends BaseController {
 	public String profile(Model model) {
 		
 		model.addAttribute("user", getLoggedInUser());
-
+		
 		return "profile";
 	}
 	
@@ -60,3 +52,4 @@ public class MainController extends BaseController {
 			return "index";
     }
 }
+

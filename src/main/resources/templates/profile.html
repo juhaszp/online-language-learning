@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div layout:fragment="pageContent">
-		<h1>Profil adatok</h1>
+		<h2>Profil adatok</h2>
 
 		<form name="profile" th:action="@{/profile_details_modify}" th:object="${user}" method="post" class="form-signin">
 			<div id="result" th:if="${result} == 'empty_name'" class="alert alert-danger">Nem lehet a profil módosításnál megadott név üres</div>

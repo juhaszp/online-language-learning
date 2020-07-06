@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu"	layout:decorator="layouts/main">
+<head>
+	<title>Online nyelvtanulás - Memóriakártya</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<h2>Memóriakártya</h2>
+		<div id="succes" style="display: none" class="alert alert-success">Gratulálunk!</div>
+		<div class="container">
+            <div id="cards">
+				<div class="row">
+				    <div th:each="word, i: ${words}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+				        <div th:id="'card_' + ${i.index + 1}" class="card noselect" th:name="${word.name}" th:attr="data-value=${word.word}"></div>
+				    </div>
+				</div>
+            </div>
+            <div class="spacer20"></div>
+            <button id="new_game" class="btn btn-lg btn-primary" style="display: none">Új játék</button>
+        </div>
+	</div>
+</body>
+</html>

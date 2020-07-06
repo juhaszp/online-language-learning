@@ -1,0 +1,10 @@
+.card {
+    font-size: 24px;
+    text-align: center;
+    line-height: 72px;
+    width: 216px;
+    border: 1px solid black;
+    margin: 18px;
+    background-color: rgb(200, 200, 200);
+    cursor: pointer;
+}

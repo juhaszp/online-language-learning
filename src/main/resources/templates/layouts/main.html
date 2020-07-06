@@ -9,8 +9,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title th:text="#{pagetitle}">Online nyelvtanulás</title>
 	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/card.css" />
 		
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />	
 	<link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />
@@ -23,28 +24,23 @@
 </head>
 <body>
 	<div class="container">
-		<nav class="navbar navbar-default">
-		    <div class="container-fluid">
-				<div class="navbar-header" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
-					<button type="button" class="navbar-toggle collapsed navbar-toggle-center navbar-menu-button" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
-						<span class="glyphicon glyphicon-menu-hamburger"></span>
-						<span class="navmenu">Menü</span>
-					</button>
-				</div>
-				<div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-				        <li th:class="${page} == 'index' ? active : passive" class=""><a href="/">Kezdőoldal</a></li>
-				        <li th:class="${page} == 'page1' ? active : passive" class=""><a href="/page1">Oldal 1</a></li>
-				        <li th:class="${page} == 'page2' ? active : passive" class=""><a href="/page2">Oldal 2</a></li>
-				    </ul>
-				    <div class="navbar-text navbar-right">
-						<form sec:authorize="isAuthenticated()" id="formlogout" th:action="@{/logout}" method="post" class="form-inline">
-						    Bejelentkezve: <a th:href="@{/profile}"><span sec:authentication="name">Anonymous </span></a>
-				    		| <a href="javascript:{}" onclick="document.getElementById('formlogout').submit(); return false;">Kijelentkezés</a>
-						</form>
-				    </div>
-				</div>
-		    </div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav mr-auto">
+                <li th:class="${page} == 'index' ? 'active nav-item' : 'passive nav-item'" class="nav-item"><a class="nav-link" href="/">Kezdőoldal</a></li>
+				        <li th:class="${page} == 'page1' ? 'active nav-item' : 'passive nav-item'" class="nav-item"><a class="nav-link" href="/memory_card">Memóriakártya</a></li>
+				        <li th:class="${page} == 'page2' ? 'active nav-item' : 'passive nav-item'" class="nav-item"><a class="nav-link" href="/page2">Oldal 2</a></li>
+              </ul>
+				<span class="navbar-text">
+					<form sec:authorize="isAuthenticated()" id="formlogout" method="post" th:action="@{/logout}" action="/logout">
+					    Bejelentkezve: <a th:href="@{/profile}" href="/profile"><span sec:authentication="name">juhasz.peter@roxinvest.hu</span></a>
+					    | <a href="javascript:{}" onclick="document.getElementById('formlogout').submit(); return false;">Kijelentkezés</a>
+					</form>
+                </span>
+            </div>
 		</nav>
 		
 		<div layout:fragment="pageContent">
@@ -56,8 +52,9 @@
 		</footer>
 	</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
  	<script type="text/javascript" th:src="${javascript}"></script>
 </body>
 </html>

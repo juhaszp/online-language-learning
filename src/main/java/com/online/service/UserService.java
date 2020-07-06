@@ -141,7 +141,8 @@ public class UserService implements UserServiceInterface, org.springframework.se
 	@Override
 	public String userForgottenPasswordActivation(User userDetails) {
 		
-		if (Optional.ofNullable(userDetails.getEmail()).isEmpty())
+		//if (Optional.ofNullable(userDetails.getEmail()).isEmpty())
+		if (userDetails.getEmail() == null)
 			return "invalid_email";
 		
 		User user = userRepository.findByEmail(userDetails.getEmail());

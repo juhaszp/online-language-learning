@@ -62,7 +62,8 @@ public class BaseController {
 		if (principal instanceof UserDetails)
 			email = ((UserDetails)principal).getUsername();
 		
-		if (Optional.ofNullable(email).isEmpty())
+		//if (Optional.ofNullable(email).isEmpty())
+		if (email == null)
 			return null;
 		else
 			return userService.findByEmail(email);
